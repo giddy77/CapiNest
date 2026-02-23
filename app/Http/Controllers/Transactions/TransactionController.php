@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Transactions\TransactionRequest;
 use App\Http\Resources\Transactions\TransactionResource;
 use App\Models\Transactions\Transaction;
+use App\Models\Wallets\Wallet;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -34,8 +35,25 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
         $data = $request->validated();
+        
+         $wallet = Wallet::findOrFail($data['wallet_id']);
 
-        $transaction = Transaction::create($data);
+        // If expense, check balance
+        if ($data['transaction_type'] === 'expense') {
+
+            if ($wallet) {
+                $currentBalance = $wallet->balance;
+
+                if ($data['amount'] > $currentBalance) {
+                    return response()->json([
+                        'message' => 'Insufficient funds. Cannot create expense transaction.',
+                    ], 422);
+                }
+            }
+
+        }
+        // $transaction = Transaction::create($data);
+        $transaction = $wallet->transactions()->create($data);
 
         return new TransactionResource($transaction);
     }
