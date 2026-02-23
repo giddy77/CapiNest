@@ -16,6 +16,9 @@ Route::get('/user', function (Request $request) {
 
         //wallets
         Route::prefix('')->group(base_path('routes/wallets/wallets.php'));
+
+        //transactions
+        Route::prefix('')->group(base_path('routes/transactions/transactions.php'));
     });
     
 // });

@@ -35,11 +35,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-        ]);
+        $user = User::create($data);
 
         return new UserResource($user);
     }

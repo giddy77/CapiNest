@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Wallets;
+namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Wallets\WalletRequest;
-use App\Http\Resources\Wallets\WalletResource;
-use App\Models\Wallets\Wallet;
+use App\Http\Requests\Transactions\TransactionRequest;
+use App\Http\Resources\Transactions\TransactionResource;
+use App\Models\Transactions\Transaction;
 use Illuminate\Http\Request;
 
-class WalletController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $wallets = Wallet::latest()->paginate(20);
+        $transactions = Transaction::latest()->paginate(20);
 
-        return WalletResource::collection($wallets);
+        return TransactionResource::collection($transactions);
     }
 
     /**
@@ -31,15 +31,13 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WalletRequest $request)
+    public function store(TransactionRequest $request)
     {
         $data = $request->validated();
 
-        //create wallet belonging to user
-        $wallet = Wallet::create($data);
+        $transaction = Transaction::create($data);
 
-        return new WalletResource($wallet);
-        
+        return new TransactionResource($transaction);
     }
 
     /**
