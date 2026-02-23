@@ -2,7 +2,8 @@
 
 namespace App\Models\Wallets;
 
-use App\Models\User;
+use App\Models\Transactions\Transaction;
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,21 +26,21 @@ class Wallet extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function transactions()
-    // {
-    //     return $this->hasMany(Transaction::class);
-    // }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
-    // public function getBalanceAttribute()
-    // {
-    //     $income = $this->transactions()
-    //         ->where('type', 'income')
-    //         ->sum('amount');
+    public function getBalanceAttribute()
+    {
+        $income = $this->transactions()
+            ->where('transaction_type', 'income')
+            ->sum('amount');
 
-    //     $expense = $this->transactions()
-    //         ->where('type', 'expense')
-    //         ->sum('amount');
+        $expense = $this->transactions()
+            ->where('transaction_type', 'expense')
+            ->sum('amount');
 
-    //     return $income - $expense;
-    // }
+        return $income - $expense;
+    }
 }
