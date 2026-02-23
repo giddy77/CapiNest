@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Wallets;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\UserRequest;
-use App\Http\Resources\Users\UserResource;
-use App\Models\Users\User;
+use App\Http\Requests\Wallets\WalletRequest;
+use App\Http\Resources\Wallets\WalletResource;
+use App\Models\Wallets\Wallet;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class WalletController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::latest()->paginate(15);
+        $wallets = Wallet::latest()->paginate(20);
 
-        return UserResource::collection($users);
+        return WalletResource::collection($wallets);
     }
 
     /**
@@ -31,17 +31,19 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(WalletRequest $request)
     {
         $data = $request->validated();
 
-        $user = User::create([
+        //create wallet belonging to user
+        $wallet = Wallet::create([
+            'user_id' => $data['user_id'],
             'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
+            'description' => $data['description']
         ]);
 
-        return new UserResource($user);
+        return new WalletResource($wallet);
+        
     }
 
     /**
