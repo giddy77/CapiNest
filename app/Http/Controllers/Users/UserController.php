@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UserRequest;
+use App\Http\Resources\Users\UserResource;
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -31,7 +33,13 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        dd($data);
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+
+        return new UserResource($user);
     }
 
     /**
