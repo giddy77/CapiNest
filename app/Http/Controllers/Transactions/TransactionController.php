@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transactions\TransactionRequest;
+use App\Http\Resources\Transactions\TransactionResource;
+use App\Models\Transactions\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -13,7 +15,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transaction::latest()->paginate(20);
+
+        return TransactionResource::collection($transactions);
     }
 
     /**
@@ -31,7 +35,9 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
 
-        dd($data);
+        $transaction = Transaction::create($data);
+
+        return new TransactionResource($transaction);
     }
 
     /**
