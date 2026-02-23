@@ -12,7 +12,10 @@ Route::get('/user', function (Request $request) {
     //version 1 api's
     Route::prefix('v1')->group(function(){
         //users
-        Route::prefix('')->group(base_path('routes/users/user.php'));
+        Route::prefix('')->group(base_path('routes/users/users.php'));
+
+        //wallets
+        Route::prefix('')->group(base_path('routes/wallets/wallets.php'));
     });
     
 // });

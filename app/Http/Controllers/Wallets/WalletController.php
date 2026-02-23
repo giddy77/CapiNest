@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Wallets;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Wallets\WalletRequest;
+use App\Http\Resources\Wallets\WalletResource;
+use App\Models\Wallets\Wallet;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
@@ -12,7 +15,9 @@ class WalletController extends Controller
      */
     public function index()
     {
-        //
+        $wallets = Wallet::latest()->paginate(20);
+
+        return WalletResource::collection($wallets);
     }
 
     /**
@@ -26,9 +31,11 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(WalletRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        dd($data);
     }
 
     /**
