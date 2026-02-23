@@ -14,6 +14,11 @@ class WalletResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => $this->user->name,
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
     }
 }

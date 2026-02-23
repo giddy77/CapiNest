@@ -35,7 +35,15 @@ class WalletController extends Controller
     {
         $data = $request->validated();
 
-        dd($data);
+        //create wallet belonging to user
+        $wallet = Wallet::create([
+            'user_id' => $data['user_id'],
+            'name' => $data['name'],
+            'description' => $data['description']
+        ]);
+
+        return new WalletResource($wallet);
+        
     }
 
     /**
