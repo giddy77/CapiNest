@@ -60,7 +60,7 @@ The system calculates balances dynamically to ensure accuracy and data integrity
 
 - PHP
 - Laravel
-- MySQL / PostgreSQL
+- PostgreSQL
 - REST API Architecture
 
 ---
@@ -82,6 +82,7 @@ Capinest was built as a backend-focused API assessment demonstrating:
 
 Capinest can be extended to support:
 
+- KYC implementation
 - Stock portfolio tracking
 - ROI & gain/loss analytics
 - Dividends tracking
