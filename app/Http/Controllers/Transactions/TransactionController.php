@@ -35,7 +35,7 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
         $data = $request->validated();
-        
+
          $wallet = Wallet::findOrFail($data['wallet_id']);
 
         // If expense, check balance
@@ -52,7 +52,7 @@ class TransactionController extends Controller
             }
 
         }
-        // $transaction = Transaction::create($data);
+        
         $transaction = $wallet->transactions()->create($data);
 
         return new TransactionResource($transaction);
