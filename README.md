@@ -83,6 +83,8 @@ Capinest was built as a backend-focused API assessment demonstrating:
 Capinest can be extended to support:
 
 - KYC implementation
+- Integrations with Banks
+- Integrations with Mpesa for user account settlements
 - Stock portfolio tracking
 - ROI & gain/loss analytics
 - Dividends tracking
