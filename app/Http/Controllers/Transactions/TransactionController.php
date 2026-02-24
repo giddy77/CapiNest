@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Transactions\TransactionRequest;
 use App\Http\Resources\Transactions\TransactionResource;
 use App\Models\Transactions\Transaction;
-use Illuminate\Http\Request;
+use App\Models\Wallets\Wallet;
 
 class TransactionController extends Controller
 {
@@ -21,21 +21,30 @@ class TransactionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(TransactionRequest $request)
     {
         $data = $request->validated();
 
-        $transaction = Transaction::create($data);
+        $wallet = Wallet::findOrFail($data['wallet_id']);
+
+        // If expense, check balance
+        if ($data['transaction_type'] === 'expense') {
+
+            if ($wallet) {
+                $currentBalance = $wallet->balance;
+
+                if ($data['amount'] > $currentBalance) {
+                    return response()->json([
+                        'message' => 'Insufficient funds. Cannot create expense transaction.',
+                    ], 422);
+                }
+            }
+
+        }
+
+        $transaction = $wallet->transactions()->create($data);
 
         return new TransactionResource($transaction);
     }
@@ -44,30 +53,6 @@ class TransactionController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }

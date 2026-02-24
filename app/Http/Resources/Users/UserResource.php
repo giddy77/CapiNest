@@ -14,6 +14,14 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone_no' => $this->phone_no,
+            'total_balance' => $this->total_balance, //total balance from wallets, Fut: in cases of USD wallets, conversions need to be application acording to market value
+            'wallets' => $this->wallets //get user wallets
+        ];
     }
 }
